@@ -68,3 +68,37 @@ func CrossEntropyError(y, t mat.Matrix) float64 {
 
 	return -mat.Sum(tLogY)
 }
+
+// TODO *mat.Dense -> mat.Matrix
+func NumericalGradient(f func(v *mat.Dense) float64, x *mat.Dense) *mat.Dense {
+	_, c := x.Dims()
+	h := 1e-4
+	grad := mat.NewDense(1, c, nil)
+	for i := 0; i < c; i++ {
+		tmpVal := x.At(0, i)
+		x.Set(0, i, tmpVal+h)
+		fxh1 := f(x)
+
+		x.Set(0, i, tmpVal-h)
+		fxh2 := f(x)
+
+		grad.Set(0, i, (fxh1-fxh2)/(2*h))
+		x.Set(0, i, tmpVal)
+	}
+
+	return grad
+}
+
+func NumericalGradientBatch(f func(v *mat.Dense) float64, x *mat.Dense) *mat.Dense {
+	r, c := x.Dims()
+	grad := mat.NewDense(r, c, nil)
+	for i := 0; i < r; i++ {
+		row := mat.NewDense(1, c, x.RawRowView(i))
+
+		rowGrad := NumericalGradient(f, row)
+		rowGradArr := make([]float64, c)
+		mat.Row(rowGradArr, 0, rowGrad)
+		grad.SetRow(i, rowGradArr)
+	}
+	return grad
+}
