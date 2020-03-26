@@ -29,3 +29,19 @@ func TestAnd(t *testing.T) {
 		}
 	}
 }
+
+func TestNand(t *testing.T) {
+	expected := []float64{
+		1.0,
+		1.0,
+		1.0,
+		0.0,
+	}
+
+	for i, d := range input {
+		actual := Nand(d.x1, d.x2)
+		if actual != expected[i] {
+			t.Fail()
+		}
+	}
+}
