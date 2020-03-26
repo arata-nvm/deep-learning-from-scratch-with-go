@@ -1,6 +1,9 @@
 package common
 
-import "gonum.org/v1/gonum/mat"
+import (
+	"gonum.org/v1/gonum/mat"
+	"math"
+)
 
 func Step(x mat.Matrix) mat.Matrix {
 	step := func(i, j int, v float64) float64 {
@@ -14,5 +17,16 @@ func Step(x mat.Matrix) mat.Matrix {
 	r, c := x.Dims()
 	result := mat.NewDense(r, c, nil)
 	result.Apply(step, x)
+	return result
+}
+
+func Sigmoid(x mat.Matrix) mat.Matrix {
+	sigmoid := func(i, j int, v float64) float64 {
+		return 1 / (1 + math.Exp(v))
+	}
+
+	r, c := x.Dims()
+	result := mat.NewDense(r, c, nil)
+	result.Apply(sigmoid, x)
 	return result
 }
