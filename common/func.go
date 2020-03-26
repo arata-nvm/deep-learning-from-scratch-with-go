@@ -35,3 +35,15 @@ func Relu(x mat.Matrix) mat.Matrix {
 		return math.Max(0, v)
 	})
 }
+
+func Softmax(a mat.Matrix) mat.Matrix {
+	c := mat.Max(a)
+	expA := apply(a, func(v float64) float64 {
+		return math.Exp(v - c)
+	})
+	sumExpA := mat.Sum(expA)
+	y := apply(expA, func(v float64) float64 {
+		return v / sumExpA
+	})
+	return y
+}
