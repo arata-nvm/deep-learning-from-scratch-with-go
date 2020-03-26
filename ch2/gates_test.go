@@ -45,3 +45,35 @@ func TestNand(t *testing.T) {
 		}
 	}
 }
+
+func TestOr(t *testing.T) {
+	expected := []float64{
+		0.0,
+		1.0,
+		1.0,
+		1.0,
+	}
+
+	for i, d := range input {
+		actual := Or(d.x1, d.x2)
+		if actual != expected[i] {
+			t.Fail()
+		}
+	}
+}
+
+func TestXor(t *testing.T) {
+	expected := []float64{
+		0.0,
+		1.0,
+		1.0,
+		0.0,
+	}
+
+	for i, d := range input {
+		actual := Xor(d.x1, d.x2)
+		if actual != expected[i] {
+			t.Fail()
+		}
+	}
+}
