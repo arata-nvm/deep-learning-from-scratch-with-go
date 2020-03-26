@@ -30,3 +30,14 @@ func Sigmoid(x mat.Matrix) mat.Matrix {
 	result.Apply(sigmoid, x)
 	return result
 }
+
+func Relu(x mat.Matrix) mat.Matrix {
+	step := func(i, j int, v float64) float64 {
+		return math.Max(0, v)
+	}
+
+	r, c := x.Dims()
+	result := mat.NewDense(r, c, nil)
+	result.Apply(step, x)
+	return result
+}
