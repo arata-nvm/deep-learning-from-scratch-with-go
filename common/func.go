@@ -55,3 +55,16 @@ func MeanSquaredError(y, t mat.Matrix) float64 {
 	diff.MulElem(diff, diff)
 	return 0.5 * mat.Sum(diff)
 }
+
+func CrossEntropyError(y, t mat.Matrix) float64 {
+	delta := 1e-7
+	logY := apply(y, func(v float64) float64 {
+		return math.Log(v + delta)
+	})
+
+	r, c := logY.Dims()
+	tLogY := mat.NewDense(r, c, nil)
+	tLogY.MulElem(t, logY)
+
+	return -mat.Sum(tLogY)
+}
