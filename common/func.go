@@ -47,3 +47,11 @@ func Softmax(a mat.Matrix) mat.Matrix {
 	})
 	return y
 }
+
+func MeanSquaredError(y, t mat.Matrix) float64 {
+	r, c := y.Dims()
+	diff := mat.NewDense(r, c, nil)
+	diff.Sub(y, t)
+	diff.MulElem(diff, diff)
+	return 0.5 * mat.Sum(diff)
+}
