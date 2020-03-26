@@ -26,7 +26,7 @@ func Step(x mat.Matrix) mat.Matrix {
 
 func Sigmoid(x mat.Matrix) mat.Matrix {
 	return apply(x, func(v float64) float64 {
-		return 1 / (1 + math.Exp(v))
+		return 1 / (1 + math.Exp(-v))
 	})
 }
 
